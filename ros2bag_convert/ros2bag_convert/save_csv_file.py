@@ -1,4 +1,4 @@
-
+import os
 import csv
 import json
 import time
@@ -7,6 +7,10 @@ import numpy as np
 def save_csv_file(data, csv_file_name, version=0, print_out=False):
     """ Save data to a csv_file_name (use it after 'read_from_all_topics').
     """
+
+    # Create csv file
+    if not os.path.exists(os.path.dirname(csv_file_name)):
+        os.makedirs(os.path.dirname(csv_file_name))
 
     # Create csv file
     with open(csv_file_name, mode='w') as csv_file:

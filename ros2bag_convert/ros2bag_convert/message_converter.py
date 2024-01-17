@@ -236,14 +236,15 @@ def convert_ros_message_to_dictionary(message):
         dict_message = convert_ros_message_to_dictionary(ros_message)
     """
     dictionary = {}
-    #message_fields = _get_message_fields(message)
-    message_fields = message.get_fields_and_field_types()
-    for (field_name, field_type) in message_fields.items():
-        field_value = getattr(message, field_name)
-        dictionary[field_name] = _convert_from_ros_type(field_type, field_value)
+    if hasattr(message, 'get_fields_and_field_types'):
+        message_fields = message.get_fields_and_field_types()
+        for (field_name, field_type) in message_fields.items():
+            field_value = getattr(message, field_name)
+            dictionary[field_name] = _convert_from_ros_type(field_type, field_value)
+    else:
+        dictionary = None
 
     return dictionary
-
 def _convert_from_ros_type(field_type, field_value):
     if field_type in ros_primitive_types:
         field_value = field_value
